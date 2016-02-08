@@ -1,0 +1,32 @@
+1. What genre is the movie CopyCat in?
+['Crime', 'Drama', 'Horror', 'Mystery', 'Thriller']
+==============================
+2. What genre has the most movies?
+{'count': 5339, '_id': 'Drama'}
+{'count': 3703, '_id': 'Comedy'}
+{'count': 1706, '_id': 'Thriller'}
+==============================
+3. What tags did user 146 use to describe the movie "2001: A Space Odyssey?
+Arthur C. Clarke
+artificial intelligence
+based on a book
+==============================
+4. What are the top 5 movies with the highest avg rating?
+Satan's Tango (Sátántangó) (1994), avg_rating: 5.0
+Blue Light, The (Das Blaue Licht) (1932), avg_rating: 5.0
+Shadows of Forgotten Ancestors (1964), avg_rating: 5.0
+Fighting Elegy (Kenka erejii) (1966), avg_rating: 5.0
+Sun Alley (Sonnenallee) (1999), avg_rating: 5.0
+==============================
+5. What is the highest avg rating possible?
+Obviously, from answer of Q4, the highest avg rating is 5.
+==============================
+6. Write 3 different queries of your choice to demonstrate that your data storage is working.
+a. Which movie is rated most frequently?
+Pulp Fiction (1994), count: 34864
+------------------------------
+b. Who is the most active user?
+The most active user has id as 59269
+------------------------------
+c. What is the most frequently used tag?
+Tumey's DVDs
