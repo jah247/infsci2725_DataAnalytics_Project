@@ -1,0 +1,57 @@
+---
+title: "Assignment2"
+author: "Zhaoyan Ai"
+date: "February 14, 2016"
+output: html_document
+---
+
+1. Importing table separated value (tsv) into R as a data.frame
+```{r}
+raw <- read.table('http://chirayukong.github.io/infsci2725/resources/lecture4/Retention.txt', header = TRUE, sep = '\t')
+```
+
+2. General description
+* Generating desciptive statistics for the data
+```{r}
+presum <- summary(raw) # min, max, mean, median, etc
+stddev <- apply(raw, 2, sd) # standard deviation
+```
+* Importing library
+```{r}
+library('ggplot2') # importing the famous ggplot2 library
+```
+* Histogram for apret
+```{r}
+ggplot(data = raw, aes(x = apret)) + geom_histogram()
+```
+
+* Histogram for tstsc
+```{r}
+ggplot(data = raw, aes(x = tstsc)) + geom_histogram()
+```
+
+* Histogram for salar
+```{r}
+ggplot(data = raw, aes(x = salar)) + geom_histogram()
+```
+
+3. Linear regression
+* Linear regression of apret on tstsc
+```{r}
+fit_1 = lm(apret ~ tstsc, data = raw)
+summary(fit_1)
+```
+* Linear regression of apret on salar
+```{r}
+fit_2 = lm(apret ~ salar, data = raw)
+summary(fit_2)
+```
+* Linear regression of apret on both tstsc and salar
+```{r}
+fit_3 = lm(apret ~ tstsc + salar, data = raw)
+summary(fit_3)
+```
+* An overview of the pairwise relationship
+```{r}
+cor(raw)
+```
