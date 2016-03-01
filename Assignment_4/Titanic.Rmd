@@ -1,0 +1,57 @@
+---
+title: "Titanic"
+author: "Zhaoyan Ai"
+date: "February 27, 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Importing original dataset and set up library
+```{r initialize}
+train <- read.table('https://kaggle2.blob.core.windows.net/competitions-data/kaggle/3136/train.csv?sv=2012-02-12&se=2016-03-03T14%3A43%3A31Z&sr=b&sp=r&sig=49VEDgjiua1bLvPOCkjr%2Bho9bGN0MCbVsQRtssLD1Og%3D', stringsAsFactors =FALSE, header=TRUE, sep=',')
+library(ggplot2)
+```
+
+# Data Graphics
+## Whisker-plot
+```{r whisker}
+ggplot(train, aes(x = Sex, y = Age)) + geom_boxplot()
+```
+As we can see from the plot, the overall age distribution for male is more towards the elder side with some extreme cases (around 80 years old). Considering the time where the tragedy happened, it's not hard to reason that women travelling at that time were mostly dependents therefore had a slightly younger age distribution.
+## Histogram
+```{r histogram}
+ggplot(train, aes(x = Age)) + geom_histogram()
+```
+The histogram agrees pretty well with the age distribution from the Whisker plot. Most people on the ship were between 20 to 40 years old. Notably, we can see there were many children (less than 15 years old) on the ship.
+```{r children-distribution}
+idx <- !is.na(train$Age) & train$Age <= 15
+children <- train[idx, ]
+ggplot(children, aes(Pclass)) + geom_bar()
+```
+From the bar chart we can see that most children came from the 3rd class. As we can safely infer that people traveling with 3rd class tickets might not be wealthy, probably the children were traveling with their family together to a different place to start their new lives.
+## Facet grid
+```{r facet-grid}
+sp <- ggplot(train, aes(x=Pclass, y=Age))+geom_point(shape=1)
+sp + facet_grid(Sex ~ .)
+```
+From this plot graph, we can see the following facts:
+Children gathered in class with value the Pclass=3 and Pclass=2, every few children stayed in class with value Pclass=1;The amount of female Passengers above 60 years old was fewer than that of male Passengers in that age group;Female Passengers above 50 years old gathered in class with value Pclass=1.
+## Violin plot
+```{r violin}
+sp <- ggplot(train, aes(x=Embarked, y=Fare))+geom_point(shape=1)
+sp+geom_violin()
+```
+As we can see from this plot, most Passengers payed less than 50 to get on Titanic; Passengers embarked from C and S were willing to paying more for the cruise ticket; No one embarked from Q payed more than 100 for the cruise travel across Atlantic Ocean.
+## Heatmap
+```{r heatmap}
+library(reshape2)
+submit <- data.frame(PassengerId = train$PassengerId, Survived = train$Survived, Age = train$Age, Pclass = train$Pclass, Fare = train$Fare, SibSp = train$SibSp)
+mydata <- submit[, c(2,3,4,5,6)]
+cormat <- round(cor(mydata),2)
+melted_cormat <- melt(cormat)
+ggplot(data = melted_cormat, aes(x=Var1, y=Var2, fill=value)) + geom_tile()
+```
+We used the heat map diagram to see the correlation between each numeric fields(Survived, SibSp, Pclass, Fare and Age). From this diagram we can find the survived field has positive correlation with the fare so does SibSp and Fare; Pclass and SibSp. However we expected there is a correlation between Age field and Survived field but we cannot find the correlation in this diagram. We think it would be more accurate if we put the Age into a age group. For example, 0~eighteen, eighteen to twenty-five so forth and so on.    
